@@ -1,0 +1,31 @@
+series: bionic
+applications:
+  elasticsearch-data:
+    charm: cs:~omnivector/elasticsearch7
+    num_units: 3
+    options:
+      cluster-name: es-data-00
+      java-opts: -Xms8g -Xmx8g
+    constraints: root-disk=20480 instance-type=i3en.large
+  elasticsearch-monitoring:
+    charm: cs:~omnivector/elasticsearch7
+    num_units: 1
+    options:
+      cluster-name: es-monitoring-00
+      java-opts: -Xms8g -Xmx8g
+    constraints: root-disk=20480 instance-type=i3en.large
+  kibana:
+    charm: cs:~omnivector/kibana
+    num_units: 1
+    constraints: root-disk=20480 instance-type=t3.medium
+relations:
+- - kibana:elasticsearch
+  - elasticsearch-monitoring:client
+- - kibana:kibana-credentials
+  - elasticsearch-monitoring:kibana-credentials
+- - kibana:http
+  - elasticsearch-data:kibana-host-port
+- - elasticsearch-monitoring:client
+  - elasticsearch-hosted:monitoring-hosts
+- - elasticsearch-monitoring:elastic-credentials
+  - elasticsearch-data:monitoring-credentials
