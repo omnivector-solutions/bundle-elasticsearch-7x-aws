@@ -26,6 +26,6 @@ relations:
 - - kibana:http
   - elasticsearch-data:kibana-host-port
 - - elasticsearch-monitoring:client
-  - elasticsearch-hosted:monitoring-hosts
+  - elasticsearch-data:monitoring-hosts
 - - elasticsearch-monitoring:elastic-credentials
   - elasticsearch-data:monitoring-credentials
